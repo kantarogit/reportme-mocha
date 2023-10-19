@@ -1,0 +1,31 @@
+{
+  "name": "reportme-mocha",
+  "version": "1.0.48",
+  "description": "",
+  "main": "./scripts/custom-json-reporter.ts",
+  "scripts": {
+    "test-reportme": "mocha -r ts-node/register test/**/*.ts --reporter ./scripts/custom-json-reporter.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "reportme": "./bin/reportme.js"
+  },
+  "files": [
+    "bin/*.js",
+    "scripts/*",
+    "utility/*",
+    "models/*",
+    "reporter/*",
+    "tsconfig.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "express": "^4.18.2",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "@types/express": "^4.17.19",
+    "@types/mocha": "^10.0.1"
+  }
+}

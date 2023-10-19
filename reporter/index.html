@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  svg {
+    font: 10px sans-serif;
+    padding: 10px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    margin: auto;
+  }
+
+  .tooltip {
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    min-width: fit-content;
+    max-width: fit-content;
+    text-align: left;
+    color: white;
+    z-index: 2;
+  }
+
+  .legend {
+    position: absolute;
+    top: 0%;
+    left: 2000px;
+    bottom: 80%;
+    right: 0px;
+    margin: auto;
+  }
+
+  .axis,
+  .frame {
+    shape-rendering: crispEdges;
+  }
+
+  .axis line {
+    stroke: #ddd;
+  }
+
+  .axis path {
+    display: none;
+  }
+
+  .cell text {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .frame {
+    fill: none;
+    stroke: #aaa;
+  }
+
+  circle {
+    fill-opacity: .7;
+  }
+
+  circle.hidden {
+    fill: rgb(0, 0, 0) !important;
+    r: 2;
+  }
+
+  .extent {
+    fill: #000;
+    fill-opacity: .125;
+    stroke: #fff;
+  }
+
+  .slider {
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    width: 37%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .slider:hover {
+    opacity: 1;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+
+  #list {
+    width: auto;
+    height: auto;
+    /* overflow-y: scroll; */
+    float: left;
+    margin-right: 800px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #selectedItems {
+    list-style: none;
+    overflow-y: scroll;
+    padding: 0;
+    margin: 0;
+    max-height: 1250px;
+  }
+
+  #selectedItems li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #333;
+  }
+
+  #selectedItems li:last-child {
+    border-bottom: none;
+  }
+
+  #selectedItems li:hover {
+    background-color: #7489fd;
+  }
+
+  #legend {
+    position: absolute;
+    top: 240px;
+    right: 900px;
+  }
+
+  .legend-item.disabled {
+    opacity: 0.5;
+  }
+</style>
+
+<body>
+  <div class="slidecontainer">
+    <input type="range" min="1" max="40" value="1" step="1" class="slider" id="myRange">
+  </div>
+
+  <div id="svg-element">
+  </div>
+
+  <!-- div with list item to show data in a rows, data source would be a Array in the script -->
+  <div id="list">
+    <ul id="selectedItems">
+    </ul>
+  </div>
+
+  <script>
+    var slider = document.getElementById("myRange");
+    slider.oninput = function () {
+      sliderCall(this.value);
+    }
+  </script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+
+    var width = 1080,
+      //size of the cell
+      size = 250,
+      //distance between cells
+      padding = 20;
+
+    // defines, x-axis for each cell
+    var x = d3.scaleLinear()
+      .range([padding / 2, size - padding / 2]);
+
+    // defines, y-axis for each cell
+    var y = d3.scaleLinear()
+      .range([size - padding / 2, padding / 2]);
+
+    var xDiscrete = d3.scaleBand()
+      .range([padding / 2, size - padding / 2]);
+
+    // defines, y-axis for each cell
+    var yDiscrete = d3.scaleBand()
+      .range([size - padding / 2, padding / 2]);
+
+    // bottom ticks, 6 columns per cell
+    var xAxis = d3.axisBottom()
+      .tickFormat(function (d) {
+        var truncatedText = d.toString().substring(0, 3);
+        var fullText = d.toString();
+        return truncatedText + (truncatedText !== fullText ? "..." : "");
+      })
+      .ticks(6);
+
+    //left ticks, 6 rows per cell
+    var yAxis = d3.axisLeft()
+      .tickFormat(function (d) {
+        var truncatedText = d.toString().substring(0, 3);
+        var fullText = d.toString();
+        return truncatedText + (truncatedText !== fullText ? "..." : "");
+      })
+      .ticks(6);
+
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    // fetch("/reports")
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     reports = data;
+    //     console.log('reports');
+    //     console.log(reports);
+    //   })
+    //   .catch(error => console.error(error));
+
+    function sliderCall(index) {
+
+      fetch("/reports")
+        .then(response => response.json())
+        .then(data => {
+          reports = data;
+          console.log('reports');
+          console.log(reports);
+          console.log('index');
+          console.log(index);
+
+          return d3.csv(reports[index-1], processRow).then(processData)
+        })
+        .catch(error => console.error(error));
+    }
+
+    function processRow(row, index, columnKeys) {
+
+      row[columnKeys[0]] = row[columnKeys[0]].trim().toLowerCase()
+      return row;
+    }
+
+    // create a tooltip
+    var tooltip = d3.select("#svg-element")
+      .append("div")
+      .style("opacity", 0)
+      .style("position", "absolute")
+      .attr("class", "tooltip")
+      .style("background-color", "black")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px");
+
+    var mouseover = function (event, d) {
+      tooltip
+        .transition()
+        .duration(1000)
+        .style("opacity", 1)
+      d3.select(this)
+        .style("stroke", "black")
+        .style('background-color', 'white')
+        .style("opacity", 1)
+    }
+    var mousemove = function (event, d) {
+      tooltip
+        .html(d)
+        .style("left", (event.pageX - tooltip.node().offsetWidth - 10) + "px")
+        .style("top", (event.pageY - tooltip.node().offsetHeight / 2) + "px");
+    }
+    var mouseleave = function (event, d) {
+      tooltip
+        .transition()
+        .duration(200)
+        .style("opacity", 0)
+      d3.select(this)
+        .style("stroke", "none")
+        .style("opacity", 0.8)
+    }
+
+    function processData(data) {
+
+      var domainByTrait = {};
+
+      var traits = Object.keys(data[0]).filter(function (d) {
+        return d !== "testTitle" && d !== "file" && d !== "status"
+      });
+
+      //todo change this in cells titles
+      var n = traits.length;
+
+      traits.forEach(function (trait) {
+        if (trait == 'suite') {
+          uniqueValues = [...new Set(data.map(item => item[trait]))];
+          domainByTrait[trait] = uniqueValues;
+        } else {
+          // find min and max for each column. d[trait] is the value
+          domainByTrait[trait] = d3.extent(data, function (d) {
+            return Number(d[trait]);
+          });
+        }
+      });
+
+      //values for dataset are correct
+      console.log(domainByTrait);
+
+      xAxis.tickSize(size * n);
+      yAxis.tickSize(-size * n);
+
+      var brush = d3.brush()
+        .extent([[padding / 2, padding / 2], [size - padding / 2, size - padding / 2]])
+        .on("start", brushstart)
+        .on("brush", brushmove)
+        .on("end", brushend);
+
+      let brushCell;
+
+      // Clear the previously-active brush, if any.
+      function brushstart(event, p) {
+        d3.selectAll(".legend-item").classed("disabled", false);
+        if (brushCell !== this) {
+          d3.select(brushCell).call(brush.move, null);
+          if (p.x == 'suite') {
+            xDiscrete.domain(domainByTrait[p.x]);
+          } else {
+            x.domain(domainByTrait[p.x]);
+          }
+
+          if (p.y == 'suite') {
+            yDiscrete.domain(domainByTrait[p.y]);
+          } else {
+            y.domain(domainByTrait[p.y]);
+          }
+          brushCell = this;
+        }
+      }
+
+      // Highlight the selected circles.
+      function brushmove(event, p) {
+        const selection = event.selection;
+        if (selection != null) {
+          //reset the state of the legend
+          d3.selectAll(".legend-item").classed("disabled", false);
+
+          var e = selection;
+          selectCircles(e, p);
+        }
+      }
+
+      //select the circles based on the brush selection e and cell p
+      function selectCircles(e, p) {
+        svg.selectAll("circle").classed("hidden", function (d) {
+          let xStartValue, xEndValue, yStartValue, yEndValue, xCircle, yCircle;
+
+          xStartValue = x.invert(e[0][0]);
+          xEndValue = x.invert(e[1][0]);
+          yStartValue = y.invert(e[0][1]);
+          yEndValue = y.invert(e[1][1]);
+
+          xCircle = d[p.x];
+          yCircle = d[p.y];
+
+          if (p.x == 'suite' && p.x != p.y) {
+
+            xStartValue = e[0][0];
+            xEndValue = e[1][0];
+
+            xCircle = xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2;
+          } else if (p.y == 'suite' && p.x != p.y) {
+
+            yStartValue = e[0][1];
+            yEndValue = e[1][1];
+
+            yCircle = yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2;
+          } else if (p.y == 'suite' && p.x == 'suite') {
+
+            xStartValue = e[0][0];
+            xEndValue = e[1][0];
+            yStartValue = e[0][1];
+            yEndValue = e[1][1];
+
+            xCircle = xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2;
+            yCircle = yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2;
+          }
+
+          if (((xStartValue <= xCircle && xCircle <= xEndValue) && (yStartValue <= yCircle && yCircle <= yEndValue)) ||
+            ((xStartValue <= xCircle && xCircle <= xEndValue) && (yStartValue >= yCircle && yCircle >= yEndValue)) ||
+            ((xStartValue >= xCircle && xCircle >= xEndValue) && (yStartValue <= yCircle && yCircle <= yEndValue)) ||
+            ((xStartValue >= xCircle && xCircle >= xEndValue) && (yStartValue >= yCircle && yCircle >= yEndValue))) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+
+        return svg.selectAll("circle:not(.hidden)");
+      }
+
+      function updateTable(circles) {
+        var selectedOnly = circles;
+        console.log('selected only:');
+        console.log(selectedOnly);
+        var myList = d3.select("#selectedItems");
+        var items = myList.selectAll("li");
+
+        existingObj = [];
+        selectedOnly = Array.from(selectedOnly).reduce((acc, obj) => {
+          const existingObj = acc.find((t) =>
+            t.__data__["priority"] === obj.__data__["priority"] &&
+            t.__data__["file"] === obj.__data__["file"] &&
+            t.__data__["duration"] === obj.__data__["duration"] &&
+            t.__data__["linesOfCode"] === obj.__data__["linesOfCode"] &&
+            t.__data__["successPercentage"] === obj.__data__["successPercentage"] &&
+            t.__data__["suite"] === obj.__data__["suite"] &&
+            t.__data__["testTitle"] === obj.__data__["testTitle"]
+          );
+          if (!existingObj) {
+            acc.push(obj);
+          }
+          return acc;
+        }, []);
+
+        console.log('selected only in brushend:');
+        console.log(selectedOnly);
+
+        //sort selectedOnly by the suite name
+        selectedOnly.sort(function (a, b) {
+          return a.__data__.suite.localeCompare(b.__data__.suite);
+        });
+
+        items.data(selectedOnly)
+          .join(
+            enter => enter
+              .append("li")
+              .text(function (d) {
+                return d.__data__.suite + ' > ' + d.__data__.testTitle;
+              }),
+            update => update
+              .text(function (d) {
+                return d.__data__.suite + ' > ' + d.__data__.testTitle;
+              }),
+            exit => exit.remove()
+          );
+      }
+
+      // If the brush is empty, select all circles.
+      function brushend(event) {
+        if (event.selection === null) {
+          svg.selectAll(".hidden").classed("hidden", false);
+        }
+        updateTable(svg.selectAll("circle:not(.hidden)"));
+      }
+
+      //clear svg after data source change
+      var svg = d3.select("svg");
+
+      if (svg.empty()) {
+        var svg = d3.select("#svg-element").append("svg")
+          .attr("width", size * n + padding)
+          .attr("height", size * n + padding)
+          .append("g")
+          .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+
+        // Define the status values based on the data in the CSV file withint the status column
+        const statusValues = [...new Set(data.map(item => item.status))];
+
+        // Create an SVG element for the legend top left of the chart
+        const legend = d3.select("body")
+          .append("svg")
+          .classed('legend', true)
+          .append("g")
+          .attr("id", "legend")
+          .attr("transform", "translate(20, 20)");
+
+        // Add a group element for each status value
+        const legendItems = legend.selectAll(".legend-item")
+          .data(statusValues)
+          .enter()
+          .append("g")
+          .attr("class", "legend-item")
+          .attr("transform", function (d, i) {
+            return "translate(0," + i * 20 + ")";
+          });
+
+        // Add a colored rectangle for each status value
+        legendItems.append("rect")
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("width", 10)
+          .attr("height", 10)
+          .style("fill", function (d) {
+            return color(d);
+          });
+
+        // Add a text label for each status value
+        legendItems.append("text")
+          .attr("x", 20)
+          .attr("y", 10)
+          .text(function (d) {
+            return d;
+          })
+          .on("click", function (event, d) {
+            const state = d;
+
+            // Toggle the visibility of the circles with the selected status value
+            var circles = svg.selectAll("circle")
+              .filter(function (d) {
+                return d.status === state;
+              });
+
+            //get the current state of the legend item
+            var currentState = d3.select(this.parentNode).classed("disabled");
+            //if the current state is disabled then disable the circles
+            if (!currentState) {
+              circles.classed("hidden", true);
+            } else {
+              // svg.selectAll("circle").classed("hidden", true);
+              let currentSelection = d3.selectAll(".selection")
+                .filter(function () {
+                  return d3.select(this).attr("style") == ''; // filter by single attribute
+                });
+
+              if (!currentSelection.empty()) {
+
+                const selection = Array.of(
+                  [Number.parseFloat(currentSelection.attr("x")), Number.parseFloat(currentSelection.attr("y"))],
+                  [
+                    Number.parseFloat(currentSelection.attr("x")) + Number.parseFloat(currentSelection.attr("width")),
+                    Number.parseFloat(currentSelection.attr("y")) + Number.parseFloat(currentSelection.attr("height"))
+                  ],
+                );
+
+                let inSelectionCircles = selectCircles(selection, currentSelection.nodes()[0].parentNode.__data__);
+                let invertCircles = svg.selectAll("circle")
+                  .filter(function (d) {
+                    return d.status !== state;
+                  });
+
+                //find the intersection between inSelectionCircles and invertCircles
+                let intersectionCircles = inSelectionCircles
+                  .nodes()
+                  .filter(circle => invertCircles
+                    .nodes().map(c => c.__data__)
+                    .includes(circle.__data__));
+
+                const legendOffItems = d3.selectAll('.legend-item')
+                  .filter(function () {
+                    return d3.select(this).classed('disabled')
+                  })
+                  .nodes()
+                  .map(node => node.__data__)
+                  .filter(node => node !== state);
+
+                intersectionCircles.forEach(circle => {
+                  if (legendOffItems.includes(circle.__data__.status)) {
+                    d3.select(circle).classed("hidden", true);
+                  }
+                });
+                //hide the circles in intersection if their status is not equal to the state
+              } else {
+                circles.classed("hidden", false);
+              }
+            }
+
+            circles = svg.selectAll("circle:not(.hidden)");
+
+            d3.select(this.parentNode)
+              .classed("disabled", !d3.select(this.parentNode).classed("disabled"));
+            updateTable(circles);
+          });
+
+        svg.append("g")
+          .style("font", "bold 10px sans-serif")
+          .style("pointer-events", "none")
+          .selectAll("text")
+          .data(traits)
+          .join("text")
+          .attr("transform", (d, i) => {
+            return `translate(${(n - i - 1) * size},${i * size})`
+          })
+          .attr("x", padding)
+          .attr("y", padding)
+          .attr("dy", ".71em")
+          .text(d => d);
+      }
+
+      var p = cross(traits, traits);
+
+      svg.selectAll(".x.axis")
+        .data(traits)
+        .join(
+          enter => enter.append("g")
+            .attr("class", "x axis")
+            .attr("transform", function (d, i) { return "translate(" + (n - i - 1) * size + ",0)"; })
+            .each(function (d) {
+              console.log(d);
+
+              if (d == 'suite') {
+                console.log(domainByTrait[d]);
+                xDiscrete.domain(domainByTrait[d]);
+                xAxis.scale(xDiscrete);
+                d3.select(this).transition().call(xAxis);
+              } else {
+                xAxis.scale(x);
+                x.domain(domainByTrait[d]); d3.select(this).transition().call(xAxis);
+              }
+            }),
+          update => update
+            .each(function (d) {
+              if (d == 'suite') {
+                console.log(domainByTrait[d]);
+                xDiscrete.domain(domainByTrait[d]);
+                xAxis.scale(xDiscrete);
+                d3.select(this).transition().call(xAxis);
+              } else {
+                xAxis.scale(x);
+                x.domain(domainByTrait[d]); d3.select(this).transition().call(xAxis);
+              }
+            }),
+          exit => exit.transition().remove()
+        )
+
+      svg.selectAll(".y.axis")
+        .data(traits)
+        .join(
+          enter => enter
+            .append("g")
+            .attr("class", "y axis")
+            .attr("transform", function (d, i) { return "translate(0," + i * size + ")"; })
+            .each(function (d) {
+              if (d == 'suite') {
+                console.log(domainByTrait[d]);
+                yAxis.scale(yDiscrete);
+                yDiscrete.domain(domainByTrait[d]);
+                d3.select(this).transition().call(yAxis);
+              } else {
+                yAxis.scale(y);
+                y.domain(domainByTrait[d]); d3.select(this).transition().call(yAxis);
+              }
+            }),
+          update => update
+            .each(function (d) {
+              if (d == 'suite') {
+                console.log(domainByTrait[d]);
+                yAxis.scale(yDiscrete);
+                yDiscrete.domain(domainByTrait[d]);
+                d3.select(this).transition().call(yAxis);
+              } else {
+                yAxis.scale(y);
+                y.domain(domainByTrait[d]); d3.select(this).transition().call(yAxis);
+              }
+            }),
+          exit => exit.transition().remove()
+        )
+
+      svg.selectAll(".y.axis").selectAll("text")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
+
+      svg.selectAll(".x.axis").selectAll("text")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
+
+      p.forEach((pos) => {
+
+        var currentCell = d3.selectAll(".cell[xcoordinate='" + pos.i + "']" + "[ycoordinate='" + pos.j + "']");
+
+        currentCell.selectAll("circle")
+          .data(data)
+          .join(
+            enter => enter
+              .append("circle")
+              .attr("cx", function (d) {
+                if (pos.x == 'suite') {
+                  xDiscrete.domain(domainByTrait[pos.x]);
+                  return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
+                } else {
+                  x.domain(domainByTrait[pos.x]);
+                  return x(d[pos.x]);
+                }
+              })
+              .attr("id", function (d) { return d.id; })
+              .attr("cy", function (d) {
+                if (pos.y == 'suite') {
+                  yDiscrete.domain(domainByTrait[pos.y]);
+                  return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
+                } else {
+                  y.domain(domainByTrait[pos.y]);
+                  return y(d[pos.y]);
+                }
+              })
+              .style("fill", function (d) { return color(d.status); })
+              .attr("r", 6)
+              .transition().duration(1000)
+              .attr("r", 4)
+              .style("opacity", 1)
+              .selection(),
+
+            update => update
+              .transition()
+              .duration(1000)
+              .on("start", function () {
+                d3.select(this)  // 'this' means the current element
+                  .attr("fill", "red")  // Change color
+                  .attr("r", 6);  // Change size
+              })
+              .attr("cx", function (d) {
+                if (pos.x == 'suite') {
+                  xDiscrete.domain(domainByTrait[pos.x]);
+                  return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
+                } else {
+                  x.domain(domainByTrait[pos.x]);
+                  return x(d[pos.x]);
+                }
+              })
+              .attr("r", 4)
+              // .attr("id", function (d) { return d.id; })
+              .style("fill", function (d) { return color(d.status); })
+              .attr("cy", function (d) {
+                if (pos.y == 'suite') {
+                  yDiscrete.domain(domainByTrait[pos.y]);
+                  return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
+                } else {
+                  y.domain(domainByTrait[pos.y]);
+                  return y(d[pos.y]);
+                }
+              })
+              .on("end", function () {  // End animation
+                d3.select(this)  // 'this' means the current element
+                  .transition()
+                  .duration(1000)
+                  .attr("fill", "black")  // Change color
+                  .attr("r", 4);
+              })
+              .selection(),
+
+            exit => exit
+              .transition() // and apply changes to all of them
+              .duration(1000)
+              .attr("r", 2)
+              .style("opacity", 0)
+              .remove()
+          );
+      });
+
+      var cell = svg.selectAll(".cell")
+        .data(cross(traits, traits))
+        .join(
+          enter => enter
+            .append("g")
+            .attr("class", "cell")
+            .attr("transform", function (d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
+            .attr("xcoordinate", function (d) { return d.i; })
+            .attr("ycoordinate", function (d) { return d.j; })
+            .each(plot),
+          update => update
+            .attr("class", "cell")
+            .attr("transform", function (d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
+            .attr("xcoordinate", function (d) { return d.i; })
+            .attr("ycoordinate", function (d) { return d.j; })
+        );
+
+      console.log('calling brush');
+
+      cell.call(brush);
+
+      //this is the cell selection that is brushed
+      let currentSelection = d3.selectAll(".selection")
+        .filter(function () {
+          return d3.select(this).attr("style") == ''; // filter by single attribute
+        });
+
+      if (currentSelection.empty()) return;
+
+      const selection = Array.of(
+        [Number.parseFloat(currentSelection.attr("x")), Number.parseFloat(currentSelection.attr("y"))],
+        [
+          Number.parseFloat(currentSelection.attr("x")) + Number.parseFloat(currentSelection.attr("width")),
+          Number.parseFloat(currentSelection.attr("y")) + Number.parseFloat(currentSelection.attr("height"))
+        ],
+      );
+
+      if (currentSelection.nodes().length > 0) {
+        d3.select(currentSelection.nodes()[0].parentNode).call(brush.move, selection);
+      }
+
+      function plot(p) {
+
+        // console.log('plot called');
+        var cell = d3.select(this);
+
+        x.domain(domainByTrait[p.x]);
+        y.domain(domainByTrait[p.y]);
+
+        cell.append("rect")
+          .attr("class", "frame")
+          .attr("x", padding / 2)
+          .attr("y", padding / 2)
+          .attr("width", size - padding)
+          .attr("height", size - padding);
+
+        cell.selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", function (d) {
+            if (p.x == 'suite') {
+              xDiscrete.domain(domainByTrait[p.x]);
+              return xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2;
+            } else {
+              x.domain(domainByTrait[p.x]);
+              return x(d[p.x]);
+            }
+          })
+          .attr("r", 4)
+          .attr("id", function (d) { return d.id; })
+          .style("fill", function (d) { return color(d.status); })
+          .attr("cy", function (d) {
+            if (p.y == 'suite') {
+              yDiscrete.domain(domainByTrait[p.y]);
+              return yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2;
+            } else {
+              y.domain(domainByTrait[p.y]);
+              return y(d[p.y]);
+            }
+          });
+      }
+    }
+
+    function cross(a, b) {
+      var c = [], n = a.length, m = b.length, i, j;
+      for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({ x: a[i], i: i, y: b[j], j: j });
+      return c;
+    }
+
+    //initial state
+    sliderCall(1);
+  </script>
+</body>
+</meta>
+
+</html>
