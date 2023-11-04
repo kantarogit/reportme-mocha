@@ -4,6 +4,7 @@
   "description": "",
   "main": "./scripts/custom-json-reporter.ts",
   "scripts": {
+    "unit-test": "mocha -r ts-node/register tests/**/*.ts",
     "test-reportme": "mocha -r ts-node/register test/**/*.ts --reporter ./scripts/custom-json-reporter.ts"
   },
   "author": "",
@@ -21,11 +22,16 @@
     "README.md"
   ],
   "dependencies": {
+    "@types/express": "^4.17.19",
+    "@types/mocha": "^10.0.1",
     "express": "^4.18.2",
     "mocha": "^10.2.0",
+    "mongodb": "^6.2.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
-    "@types/express": "^4.17.19",
-    "@types/mocha": "^10.0.1"
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.9",
+    "chai": "^4.3.10"
   }
 }
