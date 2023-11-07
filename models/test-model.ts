@@ -9,4 +9,5 @@ export interface TestResult {
   status: string;
   duration: number;
   priority: Priority;
+  rank?: number;
 }
