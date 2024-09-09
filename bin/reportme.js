@@ -65,7 +65,7 @@ function copyFile() {
     if (code == 1) {
       return;
     }
-    startServer();
+    // startServer();
   });
 }
 

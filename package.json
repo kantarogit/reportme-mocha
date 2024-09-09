@@ -1,6 +1,6 @@
 {
   "name": "reportme-mocha",
-  "version": "1.0.48",
+  "version": "1.0.56",
   "description": "",
   "main": "./scripts/custom-json-reporter.ts",
   "scripts": {
@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "bin": {
-    "reportme": "./bin/reportme.js"
+    "reportme": "./bin/reportme.js",
+    "serveme": "./bin/serveme.js"
   },
   "files": [
     "bin/*.js",
@@ -18,6 +19,7 @@
     "utility/*",
     "models/*",
     "reporter/*",
+    "repository/*",
     "tsconfig.json",
     "README.md"
   ],
