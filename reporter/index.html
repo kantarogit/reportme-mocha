@@ -237,7 +237,7 @@
           console.log('index');
           console.log(index);
 
-          return d3.csv(reports[index-1], processRow).then(processData)
+          return d3.json(reports[index - 1], processRow).then(processData)
         })
         .catch(error => console.error(error));
     }
@@ -291,16 +291,17 @@
       var domainByTrait = {};
 
       var traits = Object.keys(data[0]).filter(function (d) {
-        return d !== "testTitle" && d !== "file" && d !== "status"
+        return d !== "title" && d !== "file" && d !== "status" && d !== "startLine" && d !== "startTime";
       });
 
       //todo change this in cells titles
       var n = traits.length;
 
       traits.forEach(function (trait) {
-        if (trait == 'suite') {
+        if (trait == 'priority') {
           uniqueValues = [...new Set(data.map(item => item[trait]))];
           domainByTrait[trait] = uniqueValues;
+          domainByTrait[trait].sort();
         } else {
           // find min and max for each column. d[trait] is the value
           domainByTrait[trait] = d3.extent(data, function (d) {
@@ -328,13 +329,13 @@
         d3.selectAll(".legend-item").classed("disabled", false);
         if (brushCell !== this) {
           d3.select(brushCell).call(brush.move, null);
-          if (p.x == 'suite') {
+          if (p.x == 'priority') {
             xDiscrete.domain(domainByTrait[p.x]);
           } else {
             x.domain(domainByTrait[p.x]);
           }
 
-          if (p.y == 'suite') {
+          if (p.y == 'priority') {
             yDiscrete.domain(domainByTrait[p.y]);
           } else {
             y.domain(domainByTrait[p.y]);
@@ -368,19 +369,19 @@
           xCircle = d[p.x];
           yCircle = d[p.y];
 
-          if (p.x == 'suite' && p.x != p.y) {
+          if (p.x == 'priority' && p.x != p.y) {
 
             xStartValue = e[0][0];
             xEndValue = e[1][0];
 
             xCircle = xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2;
-          } else if (p.y == 'suite' && p.x != p.y) {
+          } else if (p.y == 'priority' && p.x != p.y) {
 
             yStartValue = e[0][1];
             yEndValue = e[1][1];
 
             yCircle = yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2;
-          } else if (p.y == 'suite' && p.x == 'suite') {
+          } else if (p.y == 'priority' && p.x == 'priority') {
 
             xStartValue = e[0][0];
             xEndValue = e[1][0];
@@ -419,7 +420,7 @@
             t.__data__["duration"] === obj.__data__["duration"] &&
             t.__data__["linesOfCode"] === obj.__data__["linesOfCode"] &&
             t.__data__["successPercentage"] === obj.__data__["successPercentage"] &&
-            t.__data__["suite"] === obj.__data__["suite"] &&
+            t.__data__["priority"] === obj.__data__["priority"] &&
             t.__data__["testTitle"] === obj.__data__["testTitle"]
           );
           if (!existingObj) {
@@ -431,9 +432,9 @@
         console.log('selected only in brushend:');
         console.log(selectedOnly);
 
-        //sort selectedOnly by the suite name
+        //sort selectedOnly by the priority name
         selectedOnly.sort(function (a, b) {
-          return a.__data__.suite.localeCompare(b.__data__.suite);
+          return a.__data__.file.localeCompare(b.__data__.file);
         });
 
         items.data(selectedOnly)
@@ -441,11 +442,11 @@
             enter => enter
               .append("li")
               .text(function (d) {
-                return d.__data__.suite + ' > ' + d.__data__.testTitle;
+                return d.__data__.file + ' > ' + d.__data__.title;
               }),
             update => update
               .text(function (d) {
-                return d.__data__.suite + ' > ' + d.__data__.testTitle;
+                return d.__data__.file + ' > ' + d.__data__.title;
               }),
             exit => exit.remove()
           );
@@ -603,7 +604,7 @@
             .each(function (d) {
               console.log(d);
 
-              if (d == 'suite') {
+              if (d == 'priority') {
                 console.log(domainByTrait[d]);
                 xDiscrete.domain(domainByTrait[d]);
                 xAxis.scale(xDiscrete);
@@ -615,7 +616,7 @@
             }),
           update => update
             .each(function (d) {
-              if (d == 'suite') {
+              if (d == 'priority') {
                 console.log(domainByTrait[d]);
                 xDiscrete.domain(domainByTrait[d]);
                 xAxis.scale(xDiscrete);
@@ -636,7 +637,7 @@
             .attr("class", "y axis")
             .attr("transform", function (d, i) { return "translate(0," + i * size + ")"; })
             .each(function (d) {
-              if (d == 'suite') {
+              if (d == 'priority') {
                 console.log(domainByTrait[d]);
                 yAxis.scale(yDiscrete);
                 yDiscrete.domain(domainByTrait[d]);
@@ -648,7 +649,7 @@
             }),
           update => update
             .each(function (d) {
-              if (d == 'suite') {
+              if (d == 'priority') {
                 console.log(domainByTrait[d]);
                 yAxis.scale(yDiscrete);
                 yDiscrete.domain(domainByTrait[d]);
@@ -681,7 +682,7 @@
             enter => enter
               .append("circle")
               .attr("cx", function (d) {
-                if (pos.x == 'suite') {
+                if (pos.x == 'priority') {
                   xDiscrete.domain(domainByTrait[pos.x]);
                   return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
                 } else {
@@ -691,7 +692,7 @@
               })
               .attr("id", function (d) { return d.id; })
               .attr("cy", function (d) {
-                if (pos.y == 'suite') {
+                if (pos.y == 'priority') {
                   yDiscrete.domain(domainByTrait[pos.y]);
                   return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
                 } else {
@@ -715,7 +716,7 @@
                   .attr("r", 6);  // Change size
               })
               .attr("cx", function (d) {
-                if (pos.x == 'suite') {
+                if (pos.x == 'priority') {
                   xDiscrete.domain(domainByTrait[pos.x]);
                   return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
                 } else {
@@ -727,7 +728,7 @@
               // .attr("id", function (d) { return d.id; })
               .style("fill", function (d) { return color(d.status); })
               .attr("cy", function (d) {
-                if (pos.y == 'suite') {
+                if (pos.y == 'priority') {
                   yDiscrete.domain(domainByTrait[pos.y]);
                   return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
                 } else {
@@ -814,7 +815,7 @@
           .enter()
           .append("circle")
           .attr("cx", function (d) {
-            if (p.x == 'suite') {
+            if (p.x == 'priority') {
               xDiscrete.domain(domainByTrait[p.x]);
               return xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2;
             } else {
@@ -826,7 +827,7 @@
           .attr("id", function (d) { return d.id; })
           .style("fill", function (d) { return color(d.status); })
           .attr("cy", function (d) {
-            if (p.y == 'suite') {
+            if (p.y == 'priority') {
               yDiscrete.domain(domainByTrait[p.y]);
               return yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2;
             } else {

@@ -1,0 +1,274 @@
+[
+  {
+    "title": "my super simple test 0",
+    "status": "passed",
+    "duration": 26,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:41.447Z"
+  },
+  {
+    "title": "my super simple test 1",
+    "status": "failed",
+    "duration": 51,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:41.507Z"
+  },
+  {
+    "title": "my super simple test 2",
+    "status": "passed",
+    "duration": 30,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:44.031Z"
+  },
+  {
+    "title": "my super simple test 3",
+    "status": "failed",
+    "duration": 42,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:44.103Z"
+  },
+  {
+    "title": "my super simple test 4",
+    "status": "passed",
+    "duration": 58,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:46.080Z"
+  },
+  {
+    "title": "my super simple test 5",
+    "status": "failed",
+    "duration": 55,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:46.181Z"
+  },
+  {
+    "title": "my super simple test 6",
+    "status": "passed",
+    "duration": 18,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:48.069Z"
+  },
+  {
+    "title": "my super simple test 7",
+    "status": "failed",
+    "duration": 28,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:48.124Z"
+  },
+  {
+    "title": "my super simple test 8",
+    "status": "passed",
+    "duration": 20,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:50.203Z"
+  },
+  {
+    "title": "my super simple test 9",
+    "status": "failed",
+    "duration": 24,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:50.247Z"
+  },
+  {
+    "title": "my super simple test 10",
+    "status": "passed",
+    "duration": 33,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:52.704Z"
+  },
+  {
+    "title": "my super simple test 11",
+    "status": "failed",
+    "duration": 19,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:52.775Z"
+  },
+  {
+    "title": "my super simple test 12",
+    "status": "passed",
+    "duration": 40,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:54.887Z"
+  },
+  {
+    "title": "my super simple test 13",
+    "status": "failed",
+    "duration": 38,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:55.065Z"
+  },
+  {
+    "title": "my super simple test 14",
+    "status": "passed",
+    "duration": 28,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:57.916Z"
+  },
+  {
+    "title": "my super simple test 15",
+    "status": "failed",
+    "duration": 60,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:57.968Z"
+  },
+  {
+    "title": "my super simple test 16",
+    "status": "passed",
+    "duration": 18,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:55:59.984Z"
+  },
+  {
+    "title": "my super simple test 17",
+    "status": "failed",
+    "duration": 18,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:00.025Z"
+  },
+  {
+    "title": "my super simple test 18",
+    "status": "passed",
+    "duration": 23,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:01.848Z"
+  },
+  {
+    "title": "my super simple test 19",
+    "status": "failed",
+    "duration": 32,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:01.903Z"
+  },
+  {
+    "title": "my super simple test 20",
+    "status": "passed",
+    "duration": 24,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:04.376Z"
+  },
+  {
+    "title": "my super simple test 21",
+    "status": "failed",
+    "duration": 14,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:04.433Z"
+  },
+  {
+    "title": "my super simple test 22",
+    "status": "passed",
+    "duration": 30,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:06.577Z"
+  },
+  {
+    "title": "my super simple test 23",
+    "status": "failed",
+    "duration": 34,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:06.652Z"
+  },
+  {
+    "title": "my super simple test 24",
+    "status": "passed",
+    "duration": 11,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:08.797Z"
+  },
+  {
+    "title": "my super simple test 25",
+    "status": "failed",
+    "duration": 30,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:08.829Z"
+  },
+  {
+    "title": "my super simple test 26",
+    "status": "passed",
+    "duration": 9,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:10.520Z"
+  },
+  {
+    "title": "my super simple test 27",
+    "status": "failed",
+    "duration": 11,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:10.546Z"
+  },
+  {
+    "title": "my super simple test 28",
+    "status": "passed",
+    "duration": 19,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:13.378Z"
+  },
+  {
+    "title": "my super simple test 29",
+    "status": "failed",
+    "duration": 15,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:13.514Z"
+  },
+  {
+    "title": "my super simple test 30",
+    "status": "passed",
+    "duration": 34,
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:16.203Z"
+  },
+  {
+    "title": "my super simple test 31",
+    "status": "failed",
+    "duration": 34,
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+    "file": "c:\\Users\\KantardjioskiFIlip\\OneDrive - Itecor International\\Documents\\projects\\pigeon-reporter-test\\tests\\example.spec.ts",
+    "startLine": 4,
+    "startTime": "2024-09-11T20:56:16.274Z"
+  }
+]
