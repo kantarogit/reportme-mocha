@@ -684,7 +684,9 @@
               .attr("cx", function (d) {
                 if (pos.x == 'priority') {
                   xDiscrete.domain(domainByTrait[pos.x]);
-                  return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
+                  let jitter = (Math.random() - 0.5) * xDiscrete.bandwidth() / 4; // Add jitter within the band
+                  return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2 + (pos.y == 'priority' ? jitter : 0);
+                  // return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
                 } else {
                   x.domain(domainByTrait[pos.x]);
                   return x(d[pos.x]);
@@ -694,7 +696,9 @@
               .attr("cy", function (d) {
                 if (pos.y == 'priority') {
                   yDiscrete.domain(domainByTrait[pos.y]);
-                  return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
+                  let jitter = (Math.random() - 0.5) * yDiscrete.bandwidth() / 4; // Add jitter within the band
+                  return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2 + (pos.x == 'priority' ? jitter : 0);
+                  // return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
                 } else {
                   y.domain(domainByTrait[pos.y]);
                   return y(d[pos.y]);
@@ -718,7 +722,9 @@
               .attr("cx", function (d) {
                 if (pos.x == 'priority') {
                   xDiscrete.domain(domainByTrait[pos.x]);
-                  return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
+                  let jitter = (Math.random() - 0.5) * xDiscrete.bandwidth() / 4; // Add jitter within the band
+                  return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2 + (pos.y == 'priority' ? jitter : 0);
+                  // return xDiscrete(d[pos.x]) + xDiscrete.bandwidth() / 2;
                 } else {
                   x.domain(domainByTrait[pos.x]);
                   return x(d[pos.x]);
@@ -730,7 +736,9 @@
               .attr("cy", function (d) {
                 if (pos.y == 'priority') {
                   yDiscrete.domain(domainByTrait[pos.y]);
-                  return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
+                  let jitter = (Math.random() - 0.5) * yDiscrete.bandwidth() / 4; // Add jitter within the band
+                  return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2 + (pos.x == 'priority' ? jitter : 0);
+                  // return yDiscrete(d[pos.y]) + yDiscrete.bandwidth() / 2;
                 } else {
                   y.domain(domainByTrait[pos.y]);
                   return y(d[pos.y]);
@@ -817,7 +825,8 @@
           .attr("cx", function (d) {
             if (p.x == 'priority') {
               xDiscrete.domain(domainByTrait[p.x]);
-              return xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2;
+              let jitter = (Math.random() - 0.5) * xDiscrete.bandwidth() / 4; // Add jitter within the band
+              return xDiscrete(d[p.x]) + xDiscrete.bandwidth() / 2 + (p.y == 'priority' ? jitter : 0);
             } else {
               x.domain(domainByTrait[p.x]);
               return x(d[p.x]);
@@ -829,7 +838,8 @@
           .attr("cy", function (d) {
             if (p.y == 'priority') {
               yDiscrete.domain(domainByTrait[p.y]);
-              return yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2;
+              let jitter = (Math.random() - 0.5) * yDiscrete.bandwidth() / 4; // Add jitter within the band
+              return yDiscrete(d[p.y]) + yDiscrete.bandwidth() / 2 + (p.x == 'priority' ? jitter : 0);
             } else {
               y.domain(domainByTrait[p.y]);
               return y(d[p.y]);
